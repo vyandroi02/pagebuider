@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useBlocks } from '../context/BlocksContext';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 const PropertiesPanel = () => {
   const { selectedBlockId, canvasBlocks, updateBlock, removeBlock, selectBlock } = useBlocks();
@@ -33,23 +37,13 @@ const PropertiesPanel = () => {
     // console.log("Exported canvasBlocks as JSON.");
   };
 
-  const commonInputClass = "mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500";
-  const commonButtonClass = "w-full px-4 py-2 text-white rounded-md shadow-sm transition-colors duration-150 ease-in-out";
-  const commonLabelClass = "block text-sm font-medium text-gray-700 mb-1";
-
-
   if (!selectedBlock) {
     return (
       <div className="w-full md:w-72 lg:w-80 h-auto md:h-screen bg-gray-50 p-4 md:p-6 border-l border-gray-200 overflow-y-auto shadow-md md:shadow-none">
         <h3 className="text-lg font-semibold mb-4 text-gray-800">Properties</h3>
         <p className="text-sm text-gray-500 mb-6">Select a block to edit its properties.</p>
         <div>
-          <button
-            onClick={handleExportJson}
-            className={`${commonButtonClass} bg-green-600 hover:bg-green-700`}
-          >
-            Export Page JSON
-          </button>
+          <Button onClick={handleExportJson} className="w-full">Export Page JSON</Button>
         </div>
       </div>
     );
@@ -70,16 +64,15 @@ const PropertiesPanel = () => {
       case 'text':
         return (
           <div>
-            <label htmlFor="content" className={commonLabelClass}>
-              Text Content
-            </label>
-            <textarea
+            <Label htmlFor="content">Text Content</Label>
+            <Textarea
               id="content"
               name="content"
               rows="4"
-              className={commonInputClass}
               value={currentProps.content || ''}
               onChange={handleInputChange}
+              placeholder="Enter text content..."
+              className="mt-1"
             />
           </div>
         );
@@ -87,29 +80,27 @@ const PropertiesPanel = () => {
         return (
           <>
             <div>
-              <label htmlFor="src" className={commonLabelClass}>
-                Image URL
-              </label>
-              <input
+              <Label htmlFor="src">Image URL</Label>
+              <Input
                 type="text"
                 id="src"
                 name="src"
-                className={commonInputClass}
                 value={currentProps.src || ''}
                 onChange={handleInputChange}
+                placeholder="https://example.com/image.png"
+                className="mt-1"
               />
             </div>
             <div className="mt-4">
-              <label htmlFor="alt" className={commonLabelClass}>
-                Alt Text
-              </label>
-              <input
+              <Label htmlFor="alt">Alt Text</Label>
+              <Input
                 type="text"
                 id="alt"
                 name="alt"
-                className={commonInputClass}
                 value={currentProps.alt || ''}
                 onChange={handleInputChange}
+                placeholder="Descriptive alt text"
+                className="mt-1"
               />
             </div>
           </>
@@ -117,16 +108,15 @@ const PropertiesPanel = () => {
       case 'button':
         return (
           <div>
-            <label htmlFor="text" className={commonLabelClass}>
-              Button Text
-            </label>
-            <input
+            <Label htmlFor="text">Button Text</Label>
+            <Input
               type="text"
               id="text"
               name="text"
-              className={commonInputClass}
               value={currentProps.text || ''}
               onChange={handleInputChange}
+              placeholder="Click me"
+              className="mt-1"
             />
           </div>
         );
@@ -145,28 +135,9 @@ const PropertiesPanel = () => {
         </div>
       </div>
       <div className="space-y-3">
-        <button
-          onClick={() => {
-            if (window.confirm('Are you sure you want to delete this block?')) {
-              removeBlock(selectedBlockId);
-            }
-          }}
-          className={`${commonButtonClass} bg-red-600 hover:bg-red-700`}
-        >
-          Delete Block
-        </button>
-        <button
-          onClick={() => selectBlock(null)}
-          className={`${commonButtonClass} bg-gray-500 hover:bg-gray-600`}
-        >
-          Deselect
-        </button>
-        <button
-          onClick={handleExportJson}
-          className={`${commonButtonClass} bg-green-600 hover:bg-green-700`}
-        >
-          Export Page JSON
-        </button>
+        <Button variant="destructive" onClick={() => { if (window.confirm('Are you sure you want to delete this block?')) { removeBlock(selectedBlockId); } }} className="w-full">Delete Block</Button>
+        <Button variant="outline" onClick={() => selectBlock(null)} className="w-full">Deselect</Button>
+        <Button onClick={handleExportJson} className="w-full">Export Page JSON</Button>
       </div>
     </div>
   );
