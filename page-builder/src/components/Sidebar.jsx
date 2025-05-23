@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDraggable } from '@dnd-kit/core';
+import { Button } from "@/components/ui/button";
 
 const availableBlocks = [
   { id: 'text', name: 'Text Block' },
@@ -17,15 +18,16 @@ const DraggableBlock = ({ block }) => {
   } : undefined;
 
   return (
-    <div
+    <Button
       ref={setNodeRef}
       style={style}
       {...listeners}
       {...attributes}
-      className="p-3 border border-gray-300 rounded mb-3 bg-white hover:bg-blue-50 shadow-sm cursor-grab active:cursor-grabbing active:shadow-lg transition-all duration-150 ease-in-out"
+      variant="outline"
+      className="w-full mb-3 cursor-grab active:cursor-grabbing justify-start" 
     >
-      <p className="text-sm font-medium text-gray-700">{block.name}</p>
-    </div>
+      {block.name}
+    </Button>
   );
 };
 
